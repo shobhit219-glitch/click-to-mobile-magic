@@ -535,7 +535,7 @@ function Waitlist() {
   };
 
   return (
-    <section className="mx-auto max-w-4xl px-5 py-24 md:px-8">
+    <section id="waitlist" className="mx-auto max-w-4xl px-5 py-24 md:px-8">
       <div
         className="relative overflow-hidden rounded-[32px] border border-line bg-ink p-10 text-center md:p-16"
         style={{ boxShadow: "var(--shadow-soft)" }}
