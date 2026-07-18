@@ -51,10 +51,12 @@ function Nav() {
           />
           Wandr
         </div>
-        <nav className="hidden items-center gap-8 text-sm font-medium text-ink-soft md:flex">
+        <nav className="hidden items-center gap-7 text-sm font-medium text-ink-soft md:flex">
           <a href="#how" className="transition hover:text-ink">How it works</a>
-          <a href="#features" className="transition hover:text-ink">Features</a>
-          <a href="#demo" className="transition hover:text-ink">Live demo</a>
+          <Link to="/flows/chat" className="transition hover:text-ink">Chat</Link>
+          <Link to="/flows/booking" className="transition hover:text-ink">Booking</Link>
+          <Link to="/flows/budget" className="transition hover:text-ink">Budget</Link>
+          <Link to="/flows/explore" className="transition hover:text-ink">Explore</Link>
           <a href="#pricing" className="transition hover:text-ink">Pricing</a>
         </nav>
         <Link
