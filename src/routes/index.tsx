@@ -522,7 +522,7 @@ function Waitlist() {
     if (c) setCount(Number(c));
   }, []);
 
-  const submit = (e: React.SubmitEvent | React.FormEvent) => {
+  const submit = (e: FormEvent) => {
     e.preventDefault();
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) return;
     window.localStorage.setItem("wandr:waitlist", email);
