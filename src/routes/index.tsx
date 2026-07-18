@@ -610,9 +610,11 @@ function Footer() {
         <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
           © {new Date().getFullYear()} · Made with care in India
         </div>
-        <div className="flex gap-5">
-          <a href="#features" className="hover:text-ink">Features</a>
-          <a href="#pricing" className="hover:text-ink">Pricing</a>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link to="/flows/chat" className="hover:text-ink">Chat</Link>
+          <Link to="/flows/booking" className="hover:text-ink">Booking</Link>
+          <Link to="/flows/budget" className="hover:text-ink">Budget</Link>
+          <Link to="/flows/explore" className="hover:text-ink">Explore</Link>
           <Link to="/app" className="hover:text-ink">App</Link>
         </div>
       </div>
