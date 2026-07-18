@@ -19,8 +19,8 @@
   --r:18px;
   font-size:16px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%; overscroll-behavior:none}
 body{
   font-family:'Outfit',system-ui,sans-serif; background:
     radial-gradient(1200px 600px at 80% -10%, #E9EFF9 0%, transparent 60%),
@@ -33,6 +33,20 @@ body{
   background:var(--paper); border-radius:34px; box-shadow:0 30px 80px rgba(20,28,51,.25), 0 0 0 1px rgba(20,28,51,.08);
   display:flex; flex-direction:column; overflow:hidden; position:relative;
 }
+/* Touch-friendly minimum tap target for buttons/interactive rows */
+button, .langbtn, .pill, .tab, a{touch-action:manipulation}
+/* Fullscreen on small viewports and when embedded in a small iframe */
+@media (max-width:520px), (max-height:720px){
+  body{padding:0; background:var(--paper)}
+  .phone{max-width:100%; height:100vh; height:100dvh; border-radius:0; box-shadow:none}
+}
+@media (orientation:landscape) and (max-height:520px){
+  body{padding:0}
+  .phone{max-width:100%; height:100vh; height:100dvh; border-radius:0; box-shadow:none}
+  .topbar{padding:8px 16px 6px}
+  .screen{padding:4px 14px 96px}
+}
+
 /* ---------- header ---------- */
 .topbar{padding:18px 20px 10px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0}
 .brand{font-family:'Fraunces',Georgia,serif; font-weight:750; font-size:1.45rem; letter-spacing:-.02em; display:flex; align-items:center; gap:8px}
