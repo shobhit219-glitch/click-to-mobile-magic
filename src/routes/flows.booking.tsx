@@ -21,7 +21,11 @@ export const Route = createFileRoute("/flows/booking")({
   component: () => (
     <FlowPage
       eyebrow="Booking & checkout"
-      title={<>Every mode. <span className="italic text-saffron">One checkout.</span></>}
+      title={
+        <>
+          Every mode. <span className="italic text-saffron">One checkout.</span>
+        </>
+      }
       lede="Wandr connects to IRCTC, top flight OTAs, redBus, cab providers and stays. You pick, confirm and pay in a single three-step sheet — no tab-switching, no re-typing passenger details."
       screen="book"
       Icon={Ticket}

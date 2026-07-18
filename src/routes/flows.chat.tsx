@@ -14,15 +14,18 @@ export const Route = createFileRoute("/flows/chat")({
       { property: "og:title", content: "Chat with Wandr — Your AI Travel Agent" },
       {
         property: "og:description",
-        content:
-          "A calm conversation that plans, filters and books your whole trip.",
+        content: "A calm conversation that plans, filters and books your whole trip.",
       },
     ],
   }),
   component: () => (
     <FlowPage
       eyebrow="Chat flow"
-      title={<>Just talk. <span className="italic text-saffron">Wandr does the rest.</span></>}
+      title={
+        <>
+          Just talk. <span className="italic text-saffron">Wandr does the rest.</span>
+        </>
+      }
       lede="Tell Wandr where you're going in any Indian language. It asks the right questions, remembers your budget and preferences, and takes real booking actions inside the chat."
       screen="agent"
       Icon={MessageCircle}

@@ -80,9 +80,7 @@ export function FlowPage({
           <h1 className="font-display text-4xl font-bold leading-[1.05] text-ink md:text-6xl">
             {title}
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
-            {lede}
-          </p>
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">{lede}</p>
           <ul className="mt-7 space-y-3">
             {bullets.map((b) => (
               <li key={b} className="flex items-start gap-3 text-ink">
@@ -151,12 +149,8 @@ export function FlowPage({
                 <div className="mb-4 font-mono text-xs tracking-widest text-muted-foreground">
                   {s.n}
                 </div>
-                <h3 className="mb-2 font-display text-xl font-bold text-ink">
-                  {s.title}
-                </h3>
-                <p className="text-[14.5px] leading-relaxed text-ink-soft">
-                  {s.body}
-                </p>
+                <h3 className="mb-2 font-display text-xl font-bold text-ink">{s.title}</h3>
+                <p className="text-[14.5px] leading-relaxed text-ink-soft">{s.body}</p>
               </div>
             ))}
           </div>
@@ -207,10 +201,18 @@ export function FlowPage({
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground md:px-8">
           <span>© {new Date().getFullYear()} · Wandr</span>
           <div className="flex flex-wrap gap-4">
-            <Link to="/flows/chat" className="hover:text-ink">Chat</Link>
-            <Link to="/flows/booking" className="hover:text-ink">Booking</Link>
-            <Link to="/flows/budget" className="hover:text-ink">Budget</Link>
-            <Link to="/flows/explore" className="hover:text-ink">Explore</Link>
+            <Link to="/flows/chat" className="hover:text-ink">
+              Chat
+            </Link>
+            <Link to="/flows/booking" className="hover:text-ink">
+              Booking
+            </Link>
+            <Link to="/flows/budget" className="hover:text-ink">
+              Budget
+            </Link>
+            <Link to="/flows/explore" className="hover:text-ink">
+              Explore
+            </Link>
           </div>
         </div>
       </footer>

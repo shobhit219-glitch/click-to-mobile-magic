@@ -81,11 +81,8 @@
   --input: var(--line);
   --ring: var(--saffron);
 
-  --gradient-warm: radial-gradient(
-      1200px 600px at 80% -10%,
-      oklch(0.94 0.04 250) 0%,
-      transparent 60%
-    ),
+  --gradient-warm:
+    radial-gradient(1200px 600px at 80% -10%, oklch(0.94 0.04 250) 0%, transparent 60%),
     radial-gradient(900px 500px at -10% 110%, oklch(0.94 0.06 55) 0%, transparent 55%),
     oklch(0.95 0.02 85);
   --gradient-saffron: linear-gradient(135deg, oklch(0.75 0.18 55), oklch(0.62 0.19 35));

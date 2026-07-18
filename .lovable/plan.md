@@ -1,65 +1,31 @@
-# Wandr — Landing Pages + Mobile App Build
+Clean up the Wandr codebase so it's ready to publish to GitHub via Lovable's Git sync.
 
-## Scope
-Rebuild your 2145-line HTML prototype as a real TanStack Start app, plus marketing landing pages around it. Everything visual + interactive from your HTML — chat agent, booking modes, trips, budget ring, explore map, settings, checkout, auth, onboarding — ported 1:1 into React components with the same look, animation, and behavior.
+## What we'll do
 
-## Routes
+1. **Verify the build passes**
+   - Run `bun run build` and typecheck to confirm no hidden errors before the repo goes public.
 
-```
-/                → Landing page (hero + live demo + features + how it works + waitlist)
-/app             → The mobile app (phone-framed, all 6 screens + auth + onboarding + checkout)
-```
+2. **Add a README.md**
+   - Create a project README with a short description, tech stack, scripts, and route map (`/`, `/app`, `/flows/*`).
+   - The repo currently has no README, which looks incomplete on GitHub.
 
-The `/app` route renders inside the same phone frame as your HTML, so on desktop it looks like a device mockup and on mobile it fills the screen.
+3. **Tidy project metadata**
+   - Review `.gitignore` and `.prettierignore` to make sure generated folders (`dist`, `.output`, `.vinxi`, `tsconfig.tsbuildinfo`) are excluded.
+   - Clean up any obvious generated artifacts that shouldn't be committed.
 
-## Landing Page Sections
-1. **Hero** — big Fraunces headline, tagline, CTA → `/app`, and a live phone-framed mini-demo on the right (real React app, not a screenshot)
-2. **Feature walkthrough** — 6 cards: AI Agent chat, Multi-mode booking (train/flight/bus/cab/hotel), Trip tickets, Budget ring, Explore map, Connected accounts
-3. **How it works** — 3 steps: Chat → Book → Travel
-4. **Pricing / Waitlist** — free tier + pro tier + email capture (stored to localStorage for now; can wire to Cloud later)
-5. **Footer** — brand, links
+4. **Format and lint**
+   - Run `bun run format` and `bun run lint` to normalize formatting across the landing pages, flow pages, and components.
 
-## Mobile App Architecture
+5. **Sanity-check the flow pages**
+   - Verify the four `/flows/*` routes and the shared `FlowPage` component have no leftover TODOs, broken imports, or duplicate code.
 
-### Design system (`src/styles.css`)
-Port every token from your HTML `:root`: ink, saffron, jade, paper, card, line, rail — as oklch semantic tokens. Fraunces + Outfit + IBM Plex Mono via `<link>` tags in `__root.tsx`.
+6. **Final build check**
+   - Run a clean build after formatting to confirm everything still compiles.
 
-### State (`src/app/store.ts`)
-Single Zustand store mirroring your global JS state: `user`, `trip`, `messages`, `tickets`, `budget`, `connections`, `activeScreen`. Persisted to localStorage so refreshes keep state exactly like your HTML `save()`/`load()` calls.
+## Outcome
 
-### Components (`src/components/app/`)
-- `PhoneFrame` — the outer bezel + topbar + bottom tabbar
-- `AuthScreen`, `OnboardingScreen`, `AgentScreen`, `BookScreen`, `TripsScreen`, `BudgetScreen`, `ExploreScreen`, `SettingsScreen`
-- `CheckoutSheet`, `TicketSheet` — full-screen overlays
-- `ChatBubble`, `ModeCard`, `SearchCard`, `ResultCard`, `Ticket`, `BudgetRing`, `CategoryBar`, `POICard`
-- `ExploreMap` — Leaflet, lazy-loaded behind `<ClientOnly>` (TanStack requires this for browser-only libs)
+A polished repo with a README, clean formatting, passing build, and no stray generated files — ready for you to connect via **Plus (+) → GitHub → Connect project** and create the repository.
 
-### Behavior parity
-- Same fake agent responses / booking search stubs / mock results as your HTML
-- Same checkout 3-step flow (details → payment → confirm) with the same total math
-- Same budget ring math, alerts, category breakdown
-- Same auth flow (email + password stored locally, same validation rules)
-- Same IRCTC / redBus / flight-agent connect forms
-- Voice banner + mic button (visual only, matching your HTML)
+## No functional changes
 
-### What's intentionally NOT included
-- Real backend — auth, bookings, payments stay local/mock exactly like your HTML
-- No Lovable Cloud yet — can be added later when you want real persistence
-
-## Technical notes
-- TanStack file-based routes: `src/routes/index.tsx` (landing), `src/routes/app.tsx` (mobile app)
-- Leaflet dynamic import inside `useEffect` to avoid SSR crash
-- All localStorage reads wrapped in `useEffect` for hydration safety
-- Framer Motion for the screen slide-l/slide-r animations
-- SEO meta on landing page: title, description, og tags
-
-## Delivery
-Because of the size (~15 screens, ~2000 lines to port), I'll build in this order in a single pass:
-1. Design tokens + fonts + phone frame + tabbar + routing
-2. Auth + onboarding + agent chat screen
-3. Book + results + checkout
-4. Trips + tickets + budget
-5. Explore map + settings + connections
-6. Landing page
-
-If you want to trim scope (e.g. skip the map, skip checkout for v1), tell me now and I'll adjust.
+This is a cleanup pass only. No app behavior, routes, or visuals will change.

@@ -21,7 +21,11 @@ export const Route = createFileRoute("/flows/explore")({
   component: () => (
     <FlowPage
       eyebrow="Explore map"
-      title={<>The map that knows <span className="italic text-saffron">the neighbourhood.</span></>}
+      title={
+        <>
+          The map that knows <span className="italic text-saffron">the neighbourhood.</span>
+        </>
+      }
       lede="Every destination in Wandr comes with a curated Leaflet map — food, monuments, viewpoints and quiet corners chosen for how you like to travel, not by ad revenue."
       screen="explore"
       Icon={MapIcon}
