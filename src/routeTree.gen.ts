@@ -12,6 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FlowsExploreRouteImport } from './routes/flows.explore'
+import { Route as FlowsChatRouteImport } from './routes/flows.chat'
+import { Route as FlowsBudgetRouteImport } from './routes/flows.budget'
+import { Route as FlowsBookingRouteImport } from './routes/flows.booking'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -28,35 +32,93 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FlowsExploreRoute = FlowsExploreRouteImport.update({
+  id: '/flows/explore',
+  path: '/flows/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlowsChatRoute = FlowsChatRouteImport.update({
+  id: '/flows/chat',
+  path: '/flows/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlowsBudgetRoute = FlowsBudgetRouteImport.update({
+  id: '/flows/budget',
+  path: '/flows/budget',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlowsBookingRoute = FlowsBookingRouteImport.update({
+  id: '/flows/booking',
+  path: '/flows/booking',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/flows/booking': typeof FlowsBookingRoute
+  '/flows/budget': typeof FlowsBudgetRoute
+  '/flows/chat': typeof FlowsChatRoute
+  '/flows/explore': typeof FlowsExploreRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/flows/booking': typeof FlowsBookingRoute
+  '/flows/budget': typeof FlowsBudgetRoute
+  '/flows/chat': typeof FlowsChatRoute
+  '/flows/explore': typeof FlowsExploreRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/flows/booking': typeof FlowsBookingRoute
+  '/flows/budget': typeof FlowsBudgetRoute
+  '/flows/chat': typeof FlowsChatRoute
+  '/flows/explore': typeof FlowsExploreRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/sitemap.xml'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/sitemap.xml'
+    | '/flows/booking'
+    | '/flows/budget'
+    | '/flows/chat'
+    | '/flows/explore'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/sitemap.xml'
-  id: '__root__' | '/' | '/app' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/app'
+    | '/sitemap.xml'
+    | '/flows/booking'
+    | '/flows/budget'
+    | '/flows/chat'
+    | '/flows/explore'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/sitemap.xml'
+    | '/flows/booking'
+    | '/flows/budget'
+    | '/flows/chat'
+    | '/flows/explore'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  FlowsBookingRoute: typeof FlowsBookingRoute
+  FlowsBudgetRoute: typeof FlowsBudgetRoute
+  FlowsChatRoute: typeof FlowsChatRoute
+  FlowsExploreRoute: typeof FlowsExploreRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +144,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/flows/explore': {
+      id: '/flows/explore'
+      path: '/flows/explore'
+      fullPath: '/flows/explore'
+      preLoaderRoute: typeof FlowsExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flows/chat': {
+      id: '/flows/chat'
+      path: '/flows/chat'
+      fullPath: '/flows/chat'
+      preLoaderRoute: typeof FlowsChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flows/budget': {
+      id: '/flows/budget'
+      path: '/flows/budget'
+      fullPath: '/flows/budget'
+      preLoaderRoute: typeof FlowsBudgetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flows/booking': {
+      id: '/flows/booking'
+      path: '/flows/booking'
+      fullPath: '/flows/booking'
+      preLoaderRoute: typeof FlowsBookingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +179,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  FlowsBookingRoute: FlowsBookingRoute,
+  FlowsBudgetRoute: FlowsBudgetRoute,
+  FlowsChatRoute: FlowsChatRoute,
+  FlowsExploreRoute: FlowsExploreRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

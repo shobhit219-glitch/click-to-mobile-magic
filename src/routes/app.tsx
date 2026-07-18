@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/app")({
@@ -22,9 +23,32 @@ export const Route = createFileRoute("/app")({
 });
 
 function AppPage() {
+  const isMobile = useIsMobile();
+
+  // On phones and small screens: render the app fullscreen — no bezel, no
+  // top chrome — so it behaves like an installed mobile app.
+  if (isMobile) {
+    return (
+      <div className="fixed inset-0 z-40 bg-paper">
+        <Link
+          to="/"
+          aria-label="Back to landing"
+          className="absolute left-3 top-[max(env(safe-area-inset-top),0.75rem)] z-50 inline-flex h-10 w-10 items-center justify-center rounded-full bg-ink/85 text-paper backdrop-blur"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Link>
+        <iframe
+          title="Wandr app"
+          src="/wandr-app.html"
+          className="h-full w-full border-0"
+          allow="clipboard-read; clipboard-write; microphone; geolocation"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Top bar */}
       <header className="flex items-center justify-between px-5 py-4 md:px-10">
         <Link
           to="/"
@@ -43,7 +67,6 @@ function AppPage() {
         <div className="w-[72px]" />
       </header>
 
-      {/* Phone stage */}
       <main className="flex flex-1 items-center justify-center px-4 pb-10 md:px-6">
         <div className="w-full max-w-[430px]">
           <PhoneFrame>
