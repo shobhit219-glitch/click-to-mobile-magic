@@ -21,7 +21,11 @@ export const Route = createFileRoute("/flows/budget")({
   component: () => (
     <FlowPage
       eyebrow="Budget rings"
-      title={<>See your spend. <span className="italic text-saffron">In one calm ring.</span></>}
+      title={
+        <>
+          See your spend. <span className="italic text-saffron">In one calm ring.</span>
+        </>
+      }
       lede="Set the trip budget once and Wandr splits it into Travel, Stay, Food and Fun. Every booking, every UPI receipt updates the ring live — with gentle warnings before you overshoot."
       screen="budget"
       Icon={Wallet}

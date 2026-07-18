@@ -52,12 +52,24 @@ function Nav() {
           Wandr
         </div>
         <nav className="hidden items-center gap-7 text-sm font-medium text-ink-soft md:flex">
-          <a href="#how" className="transition hover:text-ink">How it works</a>
-          <Link to="/flows/chat" className="transition hover:text-ink">Chat</Link>
-          <Link to="/flows/booking" className="transition hover:text-ink">Booking</Link>
-          <Link to="/flows/budget" className="transition hover:text-ink">Budget</Link>
-          <Link to="/flows/explore" className="transition hover:text-ink">Explore</Link>
-          <a href="#pricing" className="transition hover:text-ink">Pricing</a>
+          <a href="#how" className="transition hover:text-ink">
+            How it works
+          </a>
+          <Link to="/flows/chat" className="transition hover:text-ink">
+            Chat
+          </Link>
+          <Link to="/flows/booking" className="transition hover:text-ink">
+            Booking
+          </Link>
+          <Link to="/flows/budget" className="transition hover:text-ink">
+            Budget
+          </Link>
+          <Link to="/flows/explore" className="transition hover:text-ink">
+            Explore
+          </Link>
+          <a href="#pricing" className="transition hover:text-ink">
+            Pricing
+          </a>
         </nav>
         <Link
           to="/app"
@@ -88,9 +100,9 @@ function Hero() {
             <span className="italic text-saffron">Travel everywhere.</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft md:text-xl">
-            Wandr is a warm, mobile AI companion that plans your trip, books
-            trains, flights, buses and stays, tracks your budget, and shows you
-            what to explore — all from one calm conversation.
+            Wandr is a warm, mobile AI companion that plans your trip, books trains, flights, buses
+            and stays, tracks your budget, and shows you what to explore — all from one calm
+            conversation.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
@@ -109,9 +121,15 @@ function Hero() {
             </a>
           </div>
           <div className="mt-8 flex items-center gap-6 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-jade" /> IRCTC ready</span>
-            <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-jade" /> redBus linked</span>
-            <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-jade" /> 12 languages</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-jade" /> IRCTC ready
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-jade" /> redBus linked
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-jade" /> 12 languages
+            </span>
           </div>
         </div>
 
@@ -140,9 +158,7 @@ function Hero() {
                 <div className="font-mono text-[10px] uppercase tracking-widest opacity-80">
                   Trip 2481
                 </div>
-                <div className="font-display text-2xl font-bold">
-                  Delhi → Jaisalmer
-                </div>
+                <div className="font-display text-2xl font-bold">Delhi → Jaisalmer</div>
               </div>
               <div className="rounded-full bg-white/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest backdrop-blur">
                 7 days · ₹42,300
@@ -158,9 +174,7 @@ function Hero() {
             <div className="mb-1 font-mono text-[9px] uppercase tracking-widest text-saffron">
               You
             </div>
-            <div className="text-sm text-ink">
-              plan me a 5-day Rajasthan trip under 40k
-            </div>
+            <div className="text-sm text-ink">plan me a 5-day Rajasthan trip under 40k</div>
           </div>
 
           <div
@@ -171,8 +185,8 @@ function Hero() {
               Wandr
             </div>
             <div className="text-sm leading-relaxed">
-              Booked Rajdhani to Jaipur, 2 nights at a haveli, and a cab to
-              Jaisalmer. You're ₹3,700 under budget ✨
+              Booked Rajdhani to Jaipur, 2 nights at a haveli, and a cab to Jaisalmer. You're ₹3,700
+              under budget ✨
             </div>
           </div>
         </div>
@@ -253,9 +267,7 @@ function HowItWorks() {
             style={{ boxShadow: "0 1px 2px oklch(0.24 0.05 265 / 0.04)" }}
           >
             <div className="mb-6 flex items-center justify-between">
-              <span className="font-mono text-xs tracking-widest text-muted-foreground">
-                {n}
-              </span>
+              <span className="font-mono text-xs tracking-widest text-muted-foreground">{n}</span>
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-saffron-soft text-saffron">
                 <Icon className="h-5 w-5" />
               </div>
@@ -364,9 +376,8 @@ function LiveDemo() {
             <span className="italic text-ink-soft">Right here.</span>
           </h2>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-ink-soft">
-            No sign-up, no download. Tap the phone and try booking a Delhi →
-            Jaipur train, set a budget, or ask the agent for a weekend plan.
-            Every screen is live.
+            No sign-up, no download. Tap the phone and try booking a Delhi → Jaipur train, set a
+            budget, or ask the agent for a weekend plan. Every screen is live.
           </p>
           <ul className="mt-7 space-y-3">
             {[
@@ -458,9 +469,7 @@ function Pricing() {
             <div
               key={t.name}
               className={`relative rounded-3xl border p-8 transition ${
-                t.highlight
-                  ? "border-saffron bg-card"
-                  : "border-line bg-card hover:border-ink"
+                t.highlight ? "border-saffron bg-card" : "border-line bg-card hover:border-ink"
               }`}
               style={t.highlight ? { boxShadow: "var(--shadow-warm)" } : undefined}
             >
@@ -472,16 +481,10 @@ function Pricing() {
               <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                 {t.note}
               </div>
-              <div className="mt-1 font-display text-2xl font-bold text-ink">
-                {t.name}
-              </div>
+              <div className="mt-1 font-display text-2xl font-bold text-ink">{t.name}</div>
               <div className="mt-4 flex items-baseline gap-1">
-                <span className="font-display text-5xl font-bold text-ink">
-                  {t.price}
-                </span>
-                {t.per && (
-                  <span className="text-ink-soft">{t.per}</span>
-                )}
+                <span className="font-display text-5xl font-bold text-ink">{t.price}</span>
+                {t.per && <span className="text-ink-soft">{t.per}</span>}
               </div>
               <ul className="mt-6 space-y-3">
                 {t.features.map((f) => (
@@ -556,7 +559,8 @@ function Waitlist() {
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-paper/70">
             We're rolling out to travellers in India first.{" "}
-            <span className="font-semibold text-paper">{count.toLocaleString("en-IN")}</span> already in line.
+            <span className="font-semibold text-paper">{count.toLocaleString("en-IN")}</span>{" "}
+            already in line.
           </p>
 
           {done ? (
@@ -611,11 +615,21 @@ function Footer() {
           © {new Date().getFullYear()} · Made with care in India
         </div>
         <div className="flex flex-wrap justify-center gap-4">
-          <Link to="/flows/chat" className="hover:text-ink">Chat</Link>
-          <Link to="/flows/booking" className="hover:text-ink">Booking</Link>
-          <Link to="/flows/budget" className="hover:text-ink">Budget</Link>
-          <Link to="/flows/explore" className="hover:text-ink">Explore</Link>
-          <Link to="/app" className="hover:text-ink">App</Link>
+          <Link to="/flows/chat" className="hover:text-ink">
+            Chat
+          </Link>
+          <Link to="/flows/booking" className="hover:text-ink">
+            Booking
+          </Link>
+          <Link to="/flows/budget" className="hover:text-ink">
+            Budget
+          </Link>
+          <Link to="/flows/explore" className="hover:text-ink">
+            Explore
+          </Link>
+          <Link to="/app" className="hover:text-ink">
+            App
+          </Link>
         </div>
       </div>
     </footer>

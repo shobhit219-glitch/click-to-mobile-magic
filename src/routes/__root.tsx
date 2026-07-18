@@ -94,9 +94,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Wandr — Your AI Travel Agent for India" },
-      { name: "twitter:description", content: "Chat, book trains, flights, buses, cabs and stays, track your trip budget, and explore anywhere in India — all from one warm, calm mobile companion." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7e875402-0f71-4a9d-a041-d0b22a7235be/id-preview-79b8778c--32bdf435-3ca7-469c-bd4d-82552f5a62d0.lovable.app-1784366414608.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7e875402-0f71-4a9d-a041-d0b22a7235be/id-preview-79b8778c--32bdf435-3ca7-469c-bd4d-82552f5a62d0.lovable.app-1784366414608.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Chat, book trains, flights, buses, cabs and stays, track your trip budget, and explore anywhere in India — all from one warm, calm mobile companion.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7e875402-0f71-4a9d-a041-d0b22a7235be/id-preview-79b8778c--32bdf435-3ca7-469c-bd4d-82552f5a62d0.lovable.app-1784366414608.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7e875402-0f71-4a9d-a041-d0b22a7235be/id-preview-79b8778c--32bdf435-3ca7-469c-bd4d-82552f5a62d0.lovable.app-1784366414608.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
