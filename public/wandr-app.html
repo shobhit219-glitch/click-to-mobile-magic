@@ -739,6 +739,15 @@ document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
   if(next==="explore"&&typeof LMAP!=="undefined"&&LMAP)setTimeout(()=>LMAP.invalidateSize(),320);
 }));
 function go(screen){document.querySelector(`.tab[data-screen="${screen}"]`).click()}
+/* Deep-link support: /wandr-app.html#screen=budget opens on that tab */
+(function(){
+  function fromHash(){
+    const m=/screen=([a-z]+)/.exec(location.hash||"");
+    if(m && document.querySelector(`.tab[data-screen="${m[1]}"]`)) go(m[1]);
+  }
+  window.addEventListener("hashchange",fromHash);
+  window.addEventListener("load",fromHash);
+})();
 function updatePill(){$("trip-pill").textContent = S.dest ? `${S.origin} → ${DEST[S.dest].name}${S.days?` · ${S.days}d`:""}` : "No active trip"}
 
 /* ============================== CHAT ============================== */
