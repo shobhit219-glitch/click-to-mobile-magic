@@ -345,7 +345,7 @@ function HowItWorks() {
             key={n}
             variant="up"
             delay={i * 120}
-            className="group relative overflow-hidden rounded-3xl border border-line bg-card p-7 transition hover:-translate-y-1 hover:border-saffron"
+            className="group relative overflow-hidden rounded-3xl border border-line bg-card p-7 transition duration-300 hover:-translate-y-2 hover:scale-[1.03] hover:border-saffron hover:shadow-xl"
             style={{ boxShadow: "0 1px 2px oklch(0.24 0.05 265 / 0.04)" }}
           >
             <div className="mb-6 flex items-center justify-between">
@@ -437,7 +437,7 @@ function Features() {
               key={title}
               variant="scale"
               delay={(i % 3) * 100}
-              className="rounded-3xl border border-line bg-card p-7 transition hover:-translate-y-1 hover:border-ink"
+              className="rounded-3xl border border-line bg-card p-7 transition duration-300 hover:-translate-y-2 hover:scale-[1.04] hover:border-ink hover:shadow-xl"
             >
               <div
                 className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl ${toneStyles[tone]}`}
@@ -457,6 +457,7 @@ function Features() {
 /* ------------------------------ LIVE DEMO ------------------------------ */
 
 function LiveDemo() {
+  const phone = useScrollProgress();
   return (
     <section id="demo" className="mx-auto max-w-7xl px-5 py-24 md:px-8">
       <div className="grid items-center gap-14 md:grid-cols-[1fr_1.1fr]">
@@ -498,6 +499,14 @@ function LiveDemo() {
         </Reveal>
 
         <Reveal variant="right" delay={120} className="relative">
+          <div ref={phone.ref} style={{ perspective: "1600px" }}>
+            <div
+              className="transition-transform duration-200 ease-out"
+              style={{
+                transform: `rotateY(${(phone.progress * 360).toFixed(1)}deg)`,
+                transformStyle: "preserve-3d",
+              }}
+            >
           <PhoneFrame>
             <iframe
               title="Wandr live preview"
@@ -507,6 +516,8 @@ function LiveDemo() {
               allow="clipboard-read; clipboard-write; microphone"
             />
           </PhoneFrame>
+            </div>
+          </div>
         </Reveal>
       </div>
     </section>
@@ -564,7 +575,7 @@ function Pricing() {
               key={t.name}
               variant="up"
               delay={i * 130}
-              className={`relative rounded-3xl border p-8 transition ${
+              className={`relative rounded-3xl border p-8 transition-all duration-300 ease-out hover:z-10 hover:-translate-y-2 hover:scale-[1.05] hover:shadow-2xl ${
                 t.highlight ? "border-saffron bg-card" : "border-line bg-card hover:border-ink"
               }`}
               style={t.highlight ? { boxShadow: "var(--shadow-warm)" } : undefined}
