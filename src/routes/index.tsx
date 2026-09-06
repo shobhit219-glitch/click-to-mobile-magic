@@ -409,6 +409,8 @@ function Features() {
     rail: "bg-rail/10 text-rail",
     jade: "bg-jade-soft text-jade",
   };
+  const grid = useScrollProgress();
+
   return (
     <section id="features" className="border-t border-line/60 bg-card/40 py-24">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
