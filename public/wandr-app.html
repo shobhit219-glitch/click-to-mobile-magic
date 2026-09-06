@@ -3294,9 +3294,9 @@
           wrap.style.setProperty("--screen-bg-opacity", url ? "0.95" : "0");
         }, 160);
       }
-      document.querySelectorAll(".tab").forEach((b) =>
-        b.addEventListener("click", () => paintScreenBg(b.dataset.screen)),
-      );
+      document
+        .querySelectorAll(".tab")
+        .forEach((b) => b.addEventListener("click", () => paintScreenBg(b.dataset.screen)));
       paintScreenBg("agent");
 
       /* ========================== WEATHER ============================== */
@@ -3384,9 +3384,7 @@
             .map((t, i) => {
               const [, e] = WX_CODES[d.weather_code[i]] || ["", "⛅"];
               const day =
-                i === 0
-                  ? "Today"
-                  : new Date(t).toLocaleDateString("en-IN", { weekday: "short" });
+                i === 0 ? "Today" : new Date(t).toLocaleDateString("en-IN", { weekday: "short" });
               return `<div class="wx-day"><b>${day}</b><span>${e}</span><i>${Math.round(
                 d.temperature_2m_max[i],
               )}° / ${Math.round(d.temperature_2m_min[i])}°</i></div>`;
