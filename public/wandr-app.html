@@ -3274,6 +3274,160 @@
         window.addEventListener("hashchange", fromHash);
         window.addEventListener("load", fromHash);
       })();
+
+      /* ===================== SCREEN BACKGROUND ART ===================== */
+      const SCREEN_BG = {
+        agent: "/bg/bg-agent.jpg",
+        book: "/bg/bg-book.jpg",
+        trips: "/bg/bg-trips.jpg",
+        budget: "/bg/bg-trips.jpg",
+        explore: "/bg/bg-explore.jpg",
+        settings: "/bg/bg-agent.jpg",
+      };
+      function paintScreenBg(screen) {
+        const wrap = document.querySelector(".screens");
+        if (!wrap) return;
+        const url = SCREEN_BG[screen];
+        wrap.style.setProperty("--screen-bg-opacity", "0");
+        setTimeout(() => {
+          wrap.style.setProperty("--screen-bg", url ? `url("${url}")` : "none");
+          wrap.style.setProperty("--screen-bg-opacity", url ? "0.5" : "0");
+        }, 160);
+      }
+      document.querySelectorAll(".tab").forEach((b) =>
+        b.addEventListener("click", () => paintScreenBg(b.dataset.screen)),
+      );
+      paintScreenBg("agent");
+
+      /* ========================== WEATHER ============================== */
+      const WX_COORDS = {
+        goa: [15.2993, 74.124],
+        manali: [32.2432, 77.1892],
+        jaipur: [26.9124, 75.7873],
+        udaipur: [24.5854, 73.7125],
+        pondicherry: [11.9416, 79.8083],
+      };
+      const WX_CODES = {
+        0: ["Clear sky", "☀️"],
+        1: ["Mostly clear", "🌤️"],
+        2: ["Partly cloudy", "⛅"],
+        3: ["Overcast", "☁️"],
+        45: ["Foggy", "🌫️"],
+        48: ["Rime fog", "🌫️"],
+        51: ["Light drizzle", "🌦️"],
+        53: ["Drizzle", "🌦️"],
+        55: ["Heavy drizzle", "🌦️"],
+        61: ["Light rain", "🌧️"],
+        63: ["Rain", "🌧️"],
+        65: ["Heavy rain", "⛈️"],
+        71: ["Light snow", "🌨️"],
+        73: ["Snow", "🌨️"],
+        75: ["Heavy snow", "❄️"],
+        80: ["Rain showers", "🌦️"],
+        81: ["Rain showers", "🌧️"],
+        82: ["Violent showers", "⛈️"],
+        95: ["Thunderstorm", "⛈️"],
+        96: ["Thunderstorm", "⛈️"],
+        99: ["Thunderstorm", "⛈️"],
+      };
+      const WX_CACHE = {};
+      async function wxCoordsFor(name) {
+        try {
+          const r = await fetch(
+            "https://geocoding-api.open-meteo.com/v1/search?count=1&language=en&format=json&name=" +
+              encodeURIComponent(name),
+          );
+          const j = await r.json();
+          const g = j.results && j.results[0];
+          return g ? [g.latitude, g.longitude] : null;
+        } catch (e) {
+          return null;
+        }
+      }
+      async function getWeather(destKey) {
+        const key = destKey || "delhi";
+        if (WX_CACHE[key]) return WX_CACHE[key];
+        const label = destKey && DEST[destKey] ? DEST[destKey].name : S.origin || "Delhi";
+        let c = WX_COORDS[key] || (await wxCoordsFor(label));
+        if (!c) c = [28.6139, 77.209];
+        const url =
+          `https://api.open-meteo.com/v1/forecast?latitude=${c[0]}&longitude=${c[1]}` +
+          "&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code" +
+          "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max" +
+          "&forecast_days=4&timezone=auto";
+        const j = await (await fetch(url)).json();
+        const out = { label, ...j };
+        WX_CACHE[key] = out;
+        return out;
+      }
+      function wxTip(code, tmax, rain) {
+        if (rain >= 55) return "Rain likely — pack a light poncho and plan indoor stops midday.";
+        if (tmax >= 36) return "Hot one. Move sightseeing to early morning and sip water often.";
+        if (tmax <= 12) return "Chilly — layers, and a warm jacket after sunset.";
+        if (code >= 45 && code <= 48) return "Foggy mornings can delay trains — keep buffer time.";
+        return "Great weather for walking tours and open-air markets.";
+      }
+      async function renderWeather() {
+        const card = document.getElementById("wx-card");
+        if (!card) return;
+        try {
+          const w = await getWeather(S.dest);
+          const cur = w.current;
+          const [cond, emo] = WX_CODES[cur.weather_code] || ["—", "⛅"];
+          document.getElementById("wx-place").textContent = "Weather · " + w.label;
+          document.getElementById("wx-temp").textContent = Math.round(cur.temperature_2m) + "°C";
+          document.getElementById("wx-cond").textContent =
+            `${cond} · feels ${Math.round(cur.apparent_temperature)}° · ${cur.relative_humidity_2m}% humidity`;
+          document.getElementById("wx-emoji").textContent = emo;
+          const d = w.daily;
+          document.getElementById("wx-days").innerHTML = d.time
+            .map((t, i) => {
+              const [, e] = WX_CODES[d.weather_code[i]] || ["", "⛅"];
+              const day =
+                i === 0
+                  ? "Today"
+                  : new Date(t).toLocaleDateString("en-IN", { weekday: "short" });
+              return `<div class="wx-day"><b>${day}</b><span>${e}</span><i>${Math.round(
+                d.temperature_2m_max[i],
+              )}° / ${Math.round(d.temperature_2m_min[i])}°</i></div>`;
+            })
+            .join("");
+          document.getElementById("wx-tip").textContent = wxTip(
+            cur.weather_code,
+            d.temperature_2m_max[0],
+            d.precipitation_probability_max[0] || 0,
+          );
+        } catch (e) {
+          document.getElementById("wx-place").textContent = "Weather unavailable";
+          document.getElementById("wx-cond").textContent = "Check your connection and try again.";
+        }
+      }
+      document
+        .querySelector('.tab[data-screen="explore"]')
+        ?.addEventListener("click", () => renderWeather());
+      async function weatherReply() {
+        try {
+          const w = await getWeather(S.dest);
+          const cur = w.current;
+          const [cond] = WX_CODES[cur.weather_code] || ["—"];
+          const d = w.daily;
+          const days = d.time
+            .slice(1)
+            .map(
+              (t, i) =>
+                `${new Date(t).toLocaleDateString("en-IN", { weekday: "short" })} ${Math.round(
+                  d.temperature_2m_max[i + 1],
+                )}°/${Math.round(d.temperature_2m_min[i + 1])}°`,
+            )
+            .join(" · ");
+          return `**${w.label} right now:** ${Math.round(cur.temperature_2m)}°C, ${cond.toLowerCase()} (feels ${Math.round(
+            cur.apparent_temperature,
+          )}°).\nNext days — ${days}.\n${wxTip(cur.weather_code, d.temperature_2m_max[0], d.precipitation_probability_max[0] || 0)}`;
+        } catch (e) {
+          return "I couldn't reach the weather service just now — try again in a moment.";
+        }
+      }
+
       function updatePill() {
         $("trip-pill").textContent = S.dest
           ? `${S.origin} → ${DEST[S.dest].name}${S.days ? ` · ${S.days}d` : ""}`
