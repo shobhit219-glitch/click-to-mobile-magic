@@ -2044,6 +2044,68 @@
         font: inherit;
         background: var(--card);
       }
+      .budget-edit select {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 8px;
+        font: inherit;
+        background: var(--card);
+        color: var(--ink);
+      }
+      .exp-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--card);
+        margin-bottom: 8px;
+      }
+      .exp-item .e-ico {
+        font-size: 1.1rem;
+      }
+      .exp-item .e-meta {
+        flex: 1;
+        min-width: 0;
+      }
+      .exp-item .e-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--ink);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .exp-item .e-cat {
+        font-size: 0.7rem;
+        color: var(--muted);
+      }
+      .exp-item .e-amt {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      .exp-item .e-del {
+        border: none;
+        background: none;
+        color: var(--muted);
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 4px 6px;
+        border-radius: 8px;
+      }
+      .exp-item .e-del:hover {
+        color: var(--danger);
+        background: rgba(220, 60, 60, 0.08);
+      }
+      .exp-empty {
+        font-size: 0.8rem;
+        color: var(--muted);
+        text-align: center;
+        padding: 10px 0 4px;
+      }
       .btn {
         border: none;
         border-radius: 12px;
