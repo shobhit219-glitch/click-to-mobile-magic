@@ -87,8 +87,78 @@ function Nav() {
 
 /* --------------------------------- HERO -------------------------------- */
 
+/** Sun arcs up and sets while the moon rises, driven by scroll position. */
+function SkyCycle({ p }: { p: number }) {
+  const t = Math.min(1, p / 0.75); // day phase completes at 75% travel
+  const sunX = 8 + 78 * t;
+  const sunY = 74 - 62 * Math.sin(Math.PI * t);
+  const sunOpacity = t < 0.94 ? 1 : Math.max(0, (1 - t) / 0.06);
+  const night = Math.max(0, (p - 0.62) / 0.38);
+  const moonX = 12 + 60 * night;
+  const moonY = 66 - 46 * Math.sin(Math.PI * Math.min(1, night * 0.9));
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* Warm daylight → dusk → night wash */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(180deg, oklch(0.75 0.16 55 / ${0.28 * (1 - night)}) 0%, transparent 55%)`,
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(180deg, oklch(0.24 0.07 265 / ${0.6 * night}) 0%, oklch(0.18 0.06 275 / ${0.45 * night}) 100%)`,
+        }}
+      />
+      {/* Sun */}
+      <div
+        className="absolute h-16 w-16 rounded-full"
+        style={{
+          left: `${sunX}%`,
+          top: `${sunY}%`,
+          opacity: sunOpacity,
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(circle, oklch(0.95 0.14 90), oklch(0.78 0.19 55))",
+          boxShadow: "0 0 60px 24px oklch(0.85 0.16 60 / 0.5)",
+        }}
+      />
+      {/* Moon */}
+      <div
+        className="absolute h-10 w-10 rounded-full"
+        style={{
+          left: `${moonX}%`,
+          top: `${moonY}%`,
+          opacity: night,
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(circle at 35% 35%, oklch(0.98 0.01 250), oklch(0.85 0.02 260))",
+          boxShadow: "0 0 40px 12px oklch(0.9 0.03 260 / 0.35)",
+        }}
+      />
+      {/* Stars */}
+      {[
+        [18, 16],
+        [34, 9],
+        [52, 22],
+        [68, 12],
+        [82, 26],
+        [44, 34],
+      ].map(([x, y]) => (
+        <span
+          key={`${x}-${y}`}
+          className="absolute h-1 w-1 rounded-full bg-white"
+          style={{ left: `${x}%`, top: `${y}%`, opacity: night * 0.9 }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function Hero() {
   const parallax = useParallax(0.06);
+  const sky = useScrollProgress();
+
   return (
     <section className="relative overflow-hidden">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-14 md:grid-cols-[1.1fr_0.9fr] md:gap-10 md:px-8 md:py-24">
