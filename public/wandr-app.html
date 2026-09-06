@@ -184,7 +184,7 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(255, 252, 246, 0.55), rgba(255, 252, 246, 0.9));
+        background: linear-gradient(180deg, rgba(255, 252, 246, 0.3), rgba(255, 252, 246, 0.78));
         pointer-events: none;
         z-index: 0;
       }
@@ -3291,7 +3291,7 @@
         wrap.style.setProperty("--screen-bg-opacity", "0");
         setTimeout(() => {
           wrap.style.setProperty("--screen-bg", url ? `url("${url}")` : "none");
-          wrap.style.setProperty("--screen-bg-opacity", url ? "0.5" : "0");
+          wrap.style.setProperty("--screen-bg-opacity", url ? "0.95" : "0");
         }, 160);
       }
       document.querySelectorAll(".tab").forEach((b) =>
