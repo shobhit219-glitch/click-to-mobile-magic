@@ -116,3 +116,50 @@ export function ScrollProgress() {
     </div>
   );
 }
+
+/**
+ * Tracks how far an element has travelled through the viewport.
+ * Returns 0 when the element's top enters from the bottom, 1 when it leaves the top.
+ */
+export function useScrollProgress() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    const update = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const total = window.innerHeight + rect.height;
+        const travelled = window.innerHeight - rect.top;
+        setProgress(Math.min(1, Math.max(0, travelled / total)));
+      });
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return { ref, progress };
+}
+
+/** True when the user prefers reduced motion (after hydration). */
+export function useReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const on = () => setReduced(mq.matches);
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return reduced;
+}
