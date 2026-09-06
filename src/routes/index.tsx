@@ -209,6 +209,7 @@ function Hero() {
         {/* Right: image collage + floating phone */}
         <div className="relative" ref={parallax.ref} style={parallax.style}>
           <div
+            ref={sky.ref}
             className="relative aspect-[4/5] w-full overflow-hidden rounded-[32px]"
             style={{ boxShadow: "var(--shadow-soft)" }}
           >
@@ -217,8 +218,13 @@ function Hero() {
               alt="Warm travel scenes across India"
               width={1600}
               height={1200}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-300 ease-out"
+              style={{
+                transform: `scale(${(1 + sky.progress * 0.14).toFixed(3)}) translateY(${(sky.progress * -14).toFixed(1)}px)`,
+                filter: `saturate(${(1.05 - sky.progress * 0.25).toFixed(2)}) brightness(${(1.02 - sky.progress * 0.22).toFixed(2)})`,
+              }}
             />
+            <SkyCycle p={sky.progress} />
             <div
               className="absolute inset-0"
               style={{
@@ -226,6 +232,7 @@ function Hero() {
                   "linear-gradient(180deg, transparent 40%, oklch(0.24 0.05 265 / 0.35) 100%)",
               }}
             />
+
             <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-white">
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-widest opacity-80">
