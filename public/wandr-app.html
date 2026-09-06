@@ -167,6 +167,101 @@
       .screen.active {
         display: block;
       }
+      /* ---------- per-screen background art ---------- */
+      .screens::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: var(--screen-bg, none);
+        background-size: cover;
+        background-position: center;
+        opacity: var(--screen-bg-opacity, 0);
+        transition: opacity 0.45s ease;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .screens::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255, 252, 246, 0.55), rgba(255, 252, 246, 0.9));
+        pointer-events: none;
+        z-index: 0;
+      }
+      .screen {
+        z-index: 1;
+      }
+      /* ---------- weather ---------- */
+      .wx {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        padding: 14px 16px;
+        margin: 4px 0 14px;
+        background: linear-gradient(135deg, #eaf3fb, #fdf2e6);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .wx-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .wx-place {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        opacity: 0.6;
+      }
+      .wx-temp {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 2rem;
+        font-weight: 650;
+        line-height: 1.05;
+      }
+      .wx-cond {
+        font-size: 0.85rem;
+        opacity: 0.75;
+      }
+      .wx-emoji {
+        font-size: 2.2rem;
+        line-height: 1;
+      }
+      .wx-days {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .wx-day {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 14px;
+        padding: 8px 4px;
+      }
+      .wx-day b {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        opacity: 0.65;
+      }
+      .wx-day span {
+        display: block;
+        font-size: 1.1rem;
+        margin: 2px 0;
+      }
+      .wx-day i {
+        font-style: normal;
+        font-size: 0.75rem;
+      }
+      .wx-tip {
+        margin-top: 10px;
+        font-size: 0.78rem;
+        line-height: 1.4;
+        opacity: 0.8;
+      }
+
       .screen.slide-l {
         animation: slideL 0.28s cubic-bezier(0.22, 0.8, 0.36, 1);
       }
