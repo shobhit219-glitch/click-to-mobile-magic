@@ -421,7 +421,15 @@ function Features() {
             <span className="italic text-ink-soft"> Without the phone tag.</span>
           </h2>
         </Reveal>
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          ref={grid.ref}
+          className="grid gap-5 transition-transform duration-200 ease-out md:grid-cols-2 lg:grid-cols-3"
+          style={{
+            transform: `scale(${(1.04 - grid.progress * 0.2).toFixed(3)})`,
+            opacity: (1 - grid.progress * 0.25).toFixed(2),
+          }}
+        >
+
           {features.map(({ icon: Icon, title, body, tone }, i) => (
             <Reveal
               key={title}
