@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 type Variant = "up" | "down" | "left" | "right" | "scale" | "blur";
 
@@ -16,12 +16,14 @@ export function Reveal({
   variant = "up",
   delay = 0,
   className = "",
+  style,
   once = true,
 }: {
   children: ReactNode;
   variant?: Variant;
   delay?: number;
   className?: string;
+  style?: CSSProperties;
   once?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -52,7 +54,7 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ ...style, transitionDelay: shown ? "0ms" : `${delay}ms` }}
       className={`transition-all duration-700 ease-out will-change-transform ${
         shown ? "opacity-100 blur-0 translate-x-0 translate-y-0 scale-100" : hidden[variant]
       } ${className}`}
