@@ -16,7 +16,7 @@ import {
   Compass,
 } from "lucide-react";
 import { PhoneFrame } from "@/components/PhoneFrame";
-import { Reveal, ScrollProgress, useParallax } from "@/components/Reveal";
+import { Reveal, ScrollProgress, useParallax, useScrollProgress } from "@/components/Reveal";
 import heroImg from "@/assets/hero-travel.jpg";
 
 export const Route = createFileRoute("/")({
@@ -87,8 +87,78 @@ function Nav() {
 
 /* --------------------------------- HERO -------------------------------- */
 
+/** Sun arcs up and sets while the moon rises, driven by scroll position. */
+function SkyCycle({ p }: { p: number }) {
+  const t = Math.min(1, p / 0.75); // day phase completes at 75% travel
+  const sunX = 8 + 78 * t;
+  const sunY = 74 - 62 * Math.sin(Math.PI * t);
+  const sunOpacity = t < 0.94 ? 1 : Math.max(0, (1 - t) / 0.06);
+  const night = Math.max(0, (p - 0.62) / 0.38);
+  const moonX = 12 + 60 * night;
+  const moonY = 66 - 46 * Math.sin(Math.PI * Math.min(1, night * 0.9));
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* Warm daylight → dusk → night wash */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(180deg, oklch(0.75 0.16 55 / ${0.28 * (1 - night)}) 0%, transparent 55%)`,
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(180deg, oklch(0.24 0.07 265 / ${0.6 * night}) 0%, oklch(0.18 0.06 275 / ${0.45 * night}) 100%)`,
+        }}
+      />
+      {/* Sun */}
+      <div
+        className="absolute h-16 w-16 rounded-full"
+        style={{
+          left: `${sunX}%`,
+          top: `${sunY}%`,
+          opacity: sunOpacity,
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(circle, oklch(0.95 0.14 90), oklch(0.78 0.19 55))",
+          boxShadow: "0 0 60px 24px oklch(0.85 0.16 60 / 0.5)",
+        }}
+      />
+      {/* Moon */}
+      <div
+        className="absolute h-10 w-10 rounded-full"
+        style={{
+          left: `${moonX}%`,
+          top: `${moonY}%`,
+          opacity: night,
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(circle at 35% 35%, oklch(0.98 0.01 250), oklch(0.85 0.02 260))",
+          boxShadow: "0 0 40px 12px oklch(0.9 0.03 260 / 0.35)",
+        }}
+      />
+      {/* Stars */}
+      {[
+        [18, 16],
+        [34, 9],
+        [52, 22],
+        [68, 12],
+        [82, 26],
+        [44, 34],
+      ].map(([x, y]) => (
+        <span
+          key={`${x}-${y}`}
+          className="absolute h-1 w-1 rounded-full bg-white"
+          style={{ left: `${x}%`, top: `${y}%`, opacity: night * 0.9 }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function Hero() {
   const parallax = useParallax(0.06);
+  const sky = useScrollProgress();
+
   return (
     <section className="relative overflow-hidden">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-14 md:grid-cols-[1.1fr_0.9fr] md:gap-10 md:px-8 md:py-24">
@@ -139,6 +209,7 @@ function Hero() {
         {/* Right: image collage + floating phone */}
         <div className="relative" ref={parallax.ref} style={parallax.style}>
           <div
+            ref={sky.ref}
             className="relative aspect-[4/5] w-full overflow-hidden rounded-[32px]"
             style={{ boxShadow: "var(--shadow-soft)" }}
           >
@@ -147,8 +218,13 @@ function Hero() {
               alt="Warm travel scenes across India"
               width={1600}
               height={1200}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-300 ease-out"
+              style={{
+                transform: `scale(${(1 + sky.progress * 0.14).toFixed(3)}) translateY(${(sky.progress * -14).toFixed(1)}px)`,
+                filter: `saturate(${(1.05 - sky.progress * 0.25).toFixed(2)}) brightness(${(1.02 - sky.progress * 0.22).toFixed(2)})`,
+              }}
             />
+            <SkyCycle p={sky.progress} />
             <div
               className="absolute inset-0"
               style={{
@@ -156,6 +232,7 @@ function Hero() {
                   "linear-gradient(180deg, transparent 40%, oklch(0.24 0.05 265 / 0.35) 100%)",
               }}
             />
+
             <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-white">
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-widest opacity-80">
@@ -268,7 +345,7 @@ function HowItWorks() {
             key={n}
             variant="up"
             delay={i * 120}
-            className="group relative overflow-hidden rounded-3xl border border-line bg-card p-7 transition hover:-translate-y-1 hover:border-saffron"
+            className="group relative overflow-hidden rounded-3xl border border-line bg-card p-7 transition duration-300 hover:-translate-y-2 hover:scale-[1.03] hover:border-saffron hover:shadow-xl"
             style={{ boxShadow: "0 1px 2px oklch(0.24 0.05 265 / 0.04)" }}
           >
             <div className="mb-6 flex items-center justify-between">
@@ -332,6 +409,8 @@ function Features() {
     rail: "bg-rail/10 text-rail",
     jade: "bg-jade-soft text-jade",
   };
+  const grid = useScrollProgress();
+
   return (
     <section id="features" className="border-t border-line/60 bg-card/40 py-24">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -344,13 +423,21 @@ function Features() {
             <span className="italic text-ink-soft"> Without the phone tag.</span>
           </h2>
         </Reveal>
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          ref={grid.ref}
+          className="grid gap-5 transition-transform duration-200 ease-out md:grid-cols-2 lg:grid-cols-3"
+          style={{
+            transform: `scale(${(1.04 - grid.progress * 0.2).toFixed(3)})`,
+            opacity: (1 - grid.progress * 0.25).toFixed(2),
+          }}
+        >
+
           {features.map(({ icon: Icon, title, body, tone }, i) => (
             <Reveal
               key={title}
               variant="scale"
               delay={(i % 3) * 100}
-              className="rounded-3xl border border-line bg-card p-7 transition hover:-translate-y-1 hover:border-ink"
+              className="rounded-3xl border border-line bg-card p-7 transition duration-300 hover:-translate-y-2 hover:scale-[1.04] hover:border-ink hover:shadow-xl"
             >
               <div
                 className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl ${toneStyles[tone]}`}
@@ -370,6 +457,7 @@ function Features() {
 /* ------------------------------ LIVE DEMO ------------------------------ */
 
 function LiveDemo() {
+  const phone = useScrollProgress();
   return (
     <section id="demo" className="mx-auto max-w-7xl px-5 py-24 md:px-8">
       <div className="grid items-center gap-14 md:grid-cols-[1fr_1.1fr]">
@@ -411,6 +499,14 @@ function LiveDemo() {
         </Reveal>
 
         <Reveal variant="right" delay={120} className="relative">
+          <div ref={phone.ref} style={{ perspective: "1600px" }}>
+            <div
+              className="transition-transform duration-200 ease-out"
+              style={{
+                transform: `rotateY(${(Math.min(1, phone.progress / 0.5) * 360).toFixed(1)}deg)`,
+                transformStyle: "preserve-3d",
+              }}
+            >
           <PhoneFrame>
             <iframe
               title="Wandr live preview"
@@ -420,6 +516,8 @@ function LiveDemo() {
               allow="clipboard-read; clipboard-write; microphone"
             />
           </PhoneFrame>
+            </div>
+          </div>
         </Reveal>
       </div>
     </section>
@@ -477,7 +575,7 @@ function Pricing() {
               key={t.name}
               variant="up"
               delay={i * 130}
-              className={`relative rounded-3xl border p-8 transition ${
+              className={`relative rounded-3xl border p-8 transition-all duration-300 ease-out hover:z-10 hover:-translate-y-2 hover:scale-[1.05] hover:shadow-2xl ${
                 t.highlight ? "border-saffron bg-card" : "border-line bg-card hover:border-ink"
               }`}
               style={t.highlight ? { boxShadow: "var(--shadow-warm)" } : undefined}
