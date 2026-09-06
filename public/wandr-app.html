@@ -2044,6 +2044,68 @@
         font: inherit;
         background: var(--card);
       }
+      .budget-edit select {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 8px;
+        font: inherit;
+        background: var(--card);
+        color: var(--ink);
+      }
+      .exp-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--card);
+        margin-bottom: 8px;
+      }
+      .exp-item .e-ico {
+        font-size: 1.1rem;
+      }
+      .exp-item .e-meta {
+        flex: 1;
+        min-width: 0;
+      }
+      .exp-item .e-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--ink);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .exp-item .e-cat {
+        font-size: 0.7rem;
+        color: var(--muted);
+      }
+      .exp-item .e-amt {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      .exp-item .e-del {
+        border: none;
+        background: none;
+        color: var(--muted);
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 4px 6px;
+        border-radius: 8px;
+      }
+      .exp-item .e-del:hover {
+        color: var(--danger);
+        background: rgba(220, 60, 60, 0.08);
+      }
+      .exp-empty {
+        font-size: 0.8rem;
+        color: var(--muted);
+        text-align: center;
+        padding: 10px 0 4px;
+      }
       .btn {
         border: none;
         border-radius: 12px;
@@ -2711,6 +2773,22 @@
           <div class="alertbox" id="b-alert"></div>
           <div class="h-eyebrow">Allocation</div>
           <div id="cats"></div>
+          <div class="h-eyebrow" style="margin-top: 18px">Add your own expense</div>
+          <div class="budget-edit">
+            <input id="exp-label" type="text" maxlength="60" placeholder="What was it? (e.g. Cab to fort)" />
+          </div>
+          <div class="budget-edit">
+            <input id="exp-amount" type="number" min="1" placeholder="Amount (₹)" style="max-width: 130px" />
+            <select id="exp-cat">
+              <option value="food">🍛 Food</option>
+              <option value="transport">🚆 Transport</option>
+              <option value="stay">🏨 Stay</option>
+              <option value="activities">🎟️ Activities</option>
+              <option value="buffer">🧳 Other</option>
+            </select>
+            <button class="btn" id="exp-add">Add</button>
+          </div>
+          <div id="exp-list"></div>
         </section>
 
         <!-- EXPLORE -->
@@ -3198,6 +3276,7 @@
         alloc: { transport: 0, stay: 0, food: 0, activities: 0, buffer: 0 },
         catSpent: { transport: 0, stay: 0, food: 0, activities: 0, buffer: 0 },
         history: [],
+        expenses: [],
         poiFilter: "all",
         apiOK: true,
       };
@@ -4265,6 +4344,61 @@ Current app state: `;
           })
           .join("");
       }
+
+      /* ---------- manual expenses (cash / things the app can't track) ---------- */
+      function addExpense(label, amount, cat) {
+        S.expenses.push({ id: Date.now() + Math.random().toString(36).slice(2, 6), label, amount, cat });
+        S.spent += amount;
+        S.catSpent[cat] = (S.catSpent[cat] || 0) + amount;
+        renderBudget();
+        renderExpenses();
+        toast(`Added: ${label} · ${fmt(amount)}`);
+      }
+      function removeExpense(id) {
+        const i = S.expenses.findIndex((e) => e.id === id);
+        if (i < 0) return;
+        const e = S.expenses[i];
+        S.spent = Math.max(S.spent - e.amount, 0);
+        S.catSpent[e.cat] = Math.max((S.catSpent[e.cat] || 0) - e.amount, 0);
+        S.expenses.splice(i, 1);
+        renderBudget();
+        renderExpenses();
+        toast("Expense removed · " + fmt(e.amount) + " back");
+      }
+      function renderExpenses() {
+        const list = $("exp-list");
+        if (!S.expenses.length) {
+          list.innerHTML = `<div class="exp-empty">Nothing added yet — log cash spends like chai, cabs or tips here.</div>`;
+          return;
+        }
+        list.innerHTML = S.expenses
+          .slice()
+          .reverse()
+          .map((e) => {
+            const [ico, name] = CATMETA[e.cat] || CATMETA.buffer;
+            return `<div class="exp-item">
+        <div class="e-ico">${ico}</div>
+        <div class="e-meta"><div class="e-name">${e.label.replace(/</g, "&lt;")}</div><div class="e-cat">${name}</div></div>
+        <div class="e-amt">${fmt(e.amount)}</div>
+        <button class="e-del" data-exp="${e.id}" title="Remove">✕</button>
+      </div>`;
+          })
+          .join("");
+        list.querySelectorAll("[data-exp]").forEach((b) => {
+          b.onclick = () => removeExpense(b.dataset.exp);
+        });
+      }
+      $("exp-add").onclick = () => {
+        const label = $("exp-label").value.trim();
+        const amount = Math.round(+$("exp-amount").value);
+        const cat = $("exp-cat").value;
+        if (!label) return toast("Give the expense a name 🙂");
+        if (!(amount > 0)) return toast("Enter an amount above ₹0");
+        addExpense(label, amount, cat);
+        $("exp-label").value = "";
+        $("exp-amount").value = "";
+      };
+      renderExpenses();
 
       /* ============================== EXPLORE ============================== */
       function costColor(c) {
