@@ -3929,6 +3929,13 @@ Current app state: `;
         $("input").value = "";
         $("input").style.height = "auto";
         showTyping();
+        if (/\b(weather|forecast|mausam|rain|barish|temperature|garmi|thand)\b/i.test(text)) {
+          const say = await weatherReply();
+          hideTyping();
+          addMsg(say, "bot", ["Show me the map", "Plan around the weather"]);
+          return;
+        }
+
         let reply;
         if (S.apiOK) {
           try {
