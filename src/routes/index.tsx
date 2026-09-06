@@ -503,7 +503,7 @@ function LiveDemo() {
             <div
               className="transition-transform duration-200 ease-out"
               style={{
-                transform: `rotateY(${(phone.progress * 360).toFixed(1)}deg)`,
+                transform: `rotateY(${(Math.min(1, phone.progress / 0.5) * 360).toFixed(1)}deg)`,
                 transformStyle: "preserve-3d",
               }}
             >
