@@ -16,6 +16,7 @@ import {
   Compass,
 } from "lucide-react";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import { Reveal, ScrollProgress, useParallax } from "@/components/Reveal";
 import heroImg from "@/assets/hero-travel.jpg";
 
 export const Route = createFileRoute("/")({
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/")({
 function Landing() {
   return (
     <div className="min-h-screen">
+      <ScrollProgress />
       <Nav />
       <Hero />
       <LogoStrip />
@@ -86,10 +88,11 @@ function Nav() {
 /* --------------------------------- HERO -------------------------------- */
 
 function Hero() {
+  const parallax = useParallax(0.06);
   return (
     <section className="relative overflow-hidden">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-14 md:grid-cols-[1.1fr_0.9fr] md:gap-10 md:px-8 md:py-24">
-        <div>
+        <Reveal variant="up">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-card px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-saffron">
             <Sparkles className="h-3.5 w-3.5" />
             AI travel agent · Built for India
@@ -131,10 +134,10 @@ function Hero() {
               <Check className="h-3.5 w-3.5 text-jade" /> 12 languages
             </span>
           </div>
-        </div>
+        </Reveal>
 
         {/* Right: image collage + floating phone */}
-        <div className="relative">
+        <div className="relative" ref={parallax.ref} style={parallax.style}>
           <div
             className="relative aspect-[4/5] w-full overflow-hidden rounded-[32px]"
             style={{ boxShadow: "var(--shadow-soft)" }}
@@ -250,7 +253,7 @@ function HowItWorks() {
   ];
   return (
     <section id="how" className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-      <div className="mb-14 max-w-2xl">
+      <Reveal variant="blur" className="mb-14 max-w-2xl">
         <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-saffron">
           How it works
         </div>
@@ -258,11 +261,13 @@ function HowItWorks() {
           Three steps.
           <span className="italic text-ink-soft"> The whole trip.</span>
         </h2>
-      </div>
+      </Reveal>
       <div className="grid gap-5 md:grid-cols-3">
-        {steps.map(({ n, icon: Icon, title, body }) => (
-          <div
+        {steps.map(({ n, icon: Icon, title, body }, i) => (
+          <Reveal
             key={n}
+            variant="up"
+            delay={i * 120}
             className="group relative overflow-hidden rounded-3xl border border-line bg-card p-7 transition hover:-translate-y-1 hover:border-saffron"
             style={{ boxShadow: "0 1px 2px oklch(0.24 0.05 265 / 0.04)" }}
           >
@@ -274,7 +279,7 @@ function HowItWorks() {
             </div>
             <h3 className="mb-2 font-display text-2xl font-bold text-ink">{title}</h3>
             <p className="text-[15px] leading-relaxed text-ink-soft">{body}</p>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -330,7 +335,7 @@ function Features() {
   return (
     <section id="features" className="border-t border-line/60 bg-card/40 py-24">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <div className="mb-14 max-w-2xl">
+        <Reveal variant="blur" className="mb-14 max-w-2xl">
           <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-saffron">
             Features
           </div>
@@ -338,12 +343,14 @@ function Features() {
             Everything a great travel agent does.
             <span className="italic text-ink-soft"> Without the phone tag.</span>
           </h2>
-        </div>
+        </Reveal>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {features.map(({ icon: Icon, title, body, tone }) => (
-            <div
+          {features.map(({ icon: Icon, title, body, tone }, i) => (
+            <Reveal
               key={title}
-              className="rounded-3xl border border-line bg-card p-7 transition hover:border-ink"
+              variant="scale"
+              delay={(i % 3) * 100}
+              className="rounded-3xl border border-line bg-card p-7 transition hover:-translate-y-1 hover:border-ink"
             >
               <div
                 className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl ${toneStyles[tone]}`}
@@ -352,7 +359,7 @@ function Features() {
               </div>
               <h3 className="mb-2 text-lg font-bold text-ink">{title}</h3>
               <p className="text-[14.5px] leading-relaxed text-ink-soft">{body}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -366,7 +373,7 @@ function LiveDemo() {
   return (
     <section id="demo" className="mx-auto max-w-7xl px-5 py-24 md:px-8">
       <div className="grid items-center gap-14 md:grid-cols-[1fr_1.1fr]">
-        <div>
+        <Reveal variant="left">
           <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-saffron">
             Live demo
           </div>
@@ -401,9 +408,9 @@ function LiveDemo() {
             Open the full app
             <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
+        </Reveal>
 
-        <div className="relative">
+        <Reveal variant="right" delay={120} className="relative">
           <PhoneFrame>
             <iframe
               title="Wandr live preview"
@@ -413,7 +420,7 @@ function LiveDemo() {
               allow="clipboard-read; clipboard-write; microphone"
             />
           </PhoneFrame>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -455,7 +462,7 @@ function Pricing() {
   return (
     <section id="pricing" className="border-t border-line/60 bg-card/40 py-24">
       <div className="mx-auto max-w-5xl px-5 md:px-8">
-        <div className="mb-14 text-center">
+        <Reveal variant="blur" className="mb-14 text-center">
           <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-saffron">
             Pricing
           </div>
@@ -463,11 +470,13 @@ function Pricing() {
             Simple. Honest.
             <span className="italic text-ink-soft"> Cancel anytime.</span>
           </h2>
-        </div>
+        </Reveal>
         <div className="grid gap-6 md:grid-cols-2">
-          {tiers.map((t) => (
-            <div
+          {tiers.map((t, i) => (
+            <Reveal
               key={t.name}
+              variant="up"
+              delay={i * 130}
               className={`relative rounded-3xl border p-8 transition ${
                 t.highlight ? "border-saffron bg-card" : "border-line bg-card hover:border-ink"
               }`}
@@ -504,7 +513,7 @@ function Pricing() {
               >
                 {t.cta}
               </Link>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -539,7 +548,8 @@ function Waitlist() {
 
   return (
     <section id="waitlist" className="mx-auto max-w-4xl px-5 py-24 md:px-8">
-      <div
+      <Reveal
+        variant="scale"
         className="relative overflow-hidden rounded-[32px] border border-line bg-ink p-10 text-center md:p-16"
         style={{ boxShadow: "var(--shadow-soft)" }}
       >
@@ -593,7 +603,7 @@ function Waitlist() {
             No spam · unsubscribe anytime
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
