@@ -2773,6 +2773,22 @@
           <div class="alertbox" id="b-alert"></div>
           <div class="h-eyebrow">Allocation</div>
           <div id="cats"></div>
+          <div class="h-eyebrow" style="margin-top: 18px">Add your own expense</div>
+          <div class="budget-edit">
+            <input id="exp-label" type="text" maxlength="60" placeholder="What was it? (e.g. Cab to fort)" />
+          </div>
+          <div class="budget-edit">
+            <input id="exp-amount" type="number" min="1" placeholder="Amount (₹)" style="max-width: 130px" />
+            <select id="exp-cat">
+              <option value="food">🍛 Food</option>
+              <option value="transport">🚆 Transport</option>
+              <option value="stay">🏨 Stay</option>
+              <option value="activities">🎟️ Activities</option>
+              <option value="buffer">🧳 Other</option>
+            </select>
+            <button class="btn" id="exp-add">Add</button>
+          </div>
+          <div id="exp-list"></div>
         </section>
 
         <!-- EXPLORE -->
