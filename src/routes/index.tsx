@@ -16,7 +16,7 @@ import {
   Compass,
 } from "lucide-react";
 import { PhoneFrame } from "@/components/PhoneFrame";
-import { Reveal, ScrollProgress, useParallax } from "@/components/Reveal";
+import { Reveal, ScrollProgress, useParallax, useScrollProgress } from "@/components/Reveal";
 import heroImg from "@/assets/hero-travel.jpg";
 
 export const Route = createFileRoute("/")({
